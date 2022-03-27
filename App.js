@@ -8,9 +8,9 @@ import CoinDetailsScreen from "./src/screens/CoinDetailsScreen";
 export default function App() {
   return (
     <View style={styles.container}>
-      {/* <HomeScreen />
-       */}
-      <CoinDetailsScreen />
+      <HomeScreen />
+
+      {/* <CoinDetailsScreen /> */}
       <StatusBar style="auto" />
     </View>
   );

@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Image, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -26,23 +33,32 @@ const CoinDetailsScreen = () => {
     },
     name,
   } = crypto;
-  const [coinValue, setCoinValue] = useState(1);
-  const [usdValue, setUsdValue] = useState(current_price.usd);
+  const [coinValue, setCoinValue] = useState("1");
+  const [usdValue, setUsdValue] = useState(current_price.usd.toString());
   const percentageColor =
     price_change_percentage_24h > 0 ? "#16c784" : "#ea3943";
   const chartColor = current_price.usd > prices[0][1] ? "#16c784" : "#ea3943";
   const screenWidth = Dimensions.get("screen").width;
-  useEffect(() => {
-    setUsdValue(coinValue * current_price.usd);
-  }, [coinValue]);
-  useEffect(() => {
-    setCoinValue(usdValue / current_price.usd);
-  }, [usdValue]);
+  // useEffect(() => {
+  // }, [coinValue]);
+  // useEffect(() => {
+
+  // }, [usdValue]);
+  const resetConverter = () => {
+    setCoinValue("1");
+    setUsdValue(current_price.usd.toString());
+  };
   const changeCoinValue = (val) => {
-    setCoinValue(parseFloat(val));
+    setCoinValue(val);
+    console.warn(val);
+
+    const floatValue = parseFloat(val) || 0;
+    setUsdValue((floatValue * current_price.usd).toString());
   };
   const changeUsdValue = (val) => {
-    setUsdValue(parseFloat(val));
+    setUsdValue(val);
+    const floatValue = parseFloat(val) || 0;
+    setCoinValue((floatValue / current_price.usd).toString());
   };
   const formatCurrency = (value) => {
     "worklet";
@@ -131,6 +147,20 @@ const CoinDetailsScreen = () => {
             />
           </View>
         </View>
+        <TouchableOpacity onPress={resetConverter}>
+          <View
+            style={{
+              backgroundColor: percentageColor,
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 10,
+            }}
+          >
+            <Text style={{ fontWeight: "bold", color: "black", fontSize: 16 }}>
+              reset
+            </Text>
+          </View>
+        </TouchableOpacity>
       </ChartPathProvider>
     </View>
   );
