@@ -5,6 +5,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -20,11 +21,58 @@ import {
   monotoneCubicInterpolation,
   ChartYLabel,
 } from "@rainbow-me/animated-charts";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  getCoinDetailsData,
+  getCoinMarketChart,
+} from "../../services/requests";
 
 const CoinDetailsScreen = () => {
+  const [coinMarketData, setCoinMarketData] = useState(null);
+  const [coin, setCoin] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
+  const route = useRoute();
+  const coinId = route.params.coinId;
+  const [coinValue, setCoinValue] = useState("1");
+  const [usdValue, setUsdValue] = useState("");
+
+  console.log(coinId);
+
+  console.log(route);
+  const fetchCoinData = async () => {
+    setLoading(true);
+    const fetchedCoinData = await getCoinDetailsData(coinId);
+    const fetchedCoinMarketData = await getCoinMarketChart(coinId);
+    setCoin(fetchedCoinData);
+    setUsdValue(fetchedCoinData.market_data.current_price.usd.toString());
+
+    setCoinMarketData(fetchedCoinMarketData);
+    setLoading(false);
+  };
+  useEffect(() => {
+    fetchCoinData();
+  }, []);
+
+  if (loading || !coin || !coinMarketData) {
+    return (
+      <View
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator size={"large"} />
+      </View>
+    );
+  }
   const {
     image: { thumb, small, large },
-    prices,
     symbol,
     market_data: {
       price_change_percentage_24h,
@@ -32,25 +80,19 @@ const CoinDetailsScreen = () => {
       current_price,
     },
     name,
-  } = crypto;
-  const [coinValue, setCoinValue] = useState("1");
-  const [usdValue, setUsdValue] = useState(current_price.usd.toString());
+  } = coin;
+  const { prices } = coinMarketData;
+  // setUsdValue(current_price.usd.toString());
   const percentageColor =
     price_change_percentage_24h > 0 ? "#16c784" : "#ea3943";
   const chartColor = current_price.usd > prices[0][1] ? "#16c784" : "#ea3943";
   const screenWidth = Dimensions.get("screen").width;
-  // useEffect(() => {
-  // }, [coinValue]);
-  // useEffect(() => {
-
-  // }, [usdValue]);
   const resetConverter = () => {
     setCoinValue("1");
     setUsdValue(current_price.usd.toString());
   };
   const changeCoinValue = (val) => {
     setCoinValue(val);
-    console.warn(val);
 
     const floatValue = parseFloat(val) || 0;
     setUsdValue((floatValue * current_price.usd).toString());

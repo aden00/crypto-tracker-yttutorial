@@ -5,14 +5,21 @@ import { AntDesign } from "@expo/vector-icons";
 import CoinItem from "./src/components/CoinItem";
 import HomeScreen from "./src/screens/HomeScreen";
 import CoinDetailsScreen from "./src/screens/CoinDetailsScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import Navigation from "./src/navigation";
 export default function App() {
   return (
-    <View style={styles.container}>
-      <HomeScreen />
-
-      {/* <CoinDetailsScreen /> */}
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer
+      theme={{
+        colors: {
+          background: "#121212",
+        },
+      }}
+    >
+      <View style={styles.container}>
+        <Navigation />
+      </View>
+    </NavigationContainer>
   );
 }
 

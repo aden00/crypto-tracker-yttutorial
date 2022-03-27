@@ -1,10 +1,14 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import { useNavigation } from "@react-navigation/native";
 const CoinItem = ({ marketCoin }) => {
+  const navigation = useNavigation();
+
   const {
     name,
+    id,
     image,
     current_price,
     symbol,
@@ -27,7 +31,11 @@ const CoinItem = ({ marketCoin }) => {
   const percentageColor =
     price_change_percentage_24h > 0 ? "#16c784" : "#ea3943";
   return (
-    <View style={styles.coinContainer}>
+    <TouchableOpacity
+      style={styles.coinContainer}
+      onPress={() => navigation.navigate("CoinDetails", { coinId: id })}
+      activeOpacity={0.5}
+    >
       <Image
         source={{
           uri: image,
@@ -66,7 +74,7 @@ const CoinItem = ({ marketCoin }) => {
         <Text style={styles.title}>{current_price.toFixed(2)}</Text>
         <Text style={styles.text}>MCap {normalizeMarketCap(market_cap)}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
