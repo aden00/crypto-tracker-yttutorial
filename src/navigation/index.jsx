@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import CoinDetailsScreen from "../screens/CoinDetailsScreen";
+import BottomTabNavigator from "./BottomTabNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +14,7 @@ const Navigation = () => {
       initialRouteName="Home"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen name="CoinDetails" component={CoinDetailsScreen} />
     </Stack.Navigator>
   );
