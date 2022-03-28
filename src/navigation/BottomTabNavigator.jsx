@@ -6,6 +6,8 @@ import HomeScreen from "../screens/HomeScreen";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import WatchListScreen from "../screens/WatchListScreen";
+import { FontAwesome5 } from "@expo/vector-icons";
+import PorfolioScreen from "../screens/PortfolioScreen";
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
@@ -30,7 +32,26 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-
+      <Tab.Screen
+        name="Portfolio"
+        component={PorfolioScreen}
+        options={{
+          tabBarIcon: ({ focused, color }) => (
+            <FontAwesome5
+              name="chart-pie"
+              size={focused ? 30 : 25}
+              color={color}
+            />
+          ),
+          headerShown: true,
+          headerStyle: { backgroundColor: "grey" },
+          headerTitleStyle: {
+            color: "white",
+            alignSelf: "center",
+            fontWeight: "bold",
+          },
+        }}
+      />
       <Tab.Screen
         name="WatchList"
         component={WatchListScreen}
