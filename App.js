@@ -1,12 +1,7 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image, FlatList } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-
-import CoinItem from "./src/components/CoinItem";
-import HomeScreen from "./src/screens/HomeScreen";
-import CoinDetailsScreen from "./src/screens/CoinDetailsScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "./src/navigation";
+import WatchListProvider from "./src/Contexts/WatchlistContext";
 export default function App() {
   return (
     <NavigationContainer
@@ -16,9 +11,11 @@ export default function App() {
         },
       }}
     >
-      <View style={styles.container}>
-        <Navigation />
-      </View>
+      <WatchListProvider>
+        <View style={styles.container}>
+          <Navigation />
+        </View>
+      </WatchListProvider>
     </NavigationContainer>
   );
 }
@@ -27,6 +24,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#121212",
-    paddingTop: 30,
   },
 });

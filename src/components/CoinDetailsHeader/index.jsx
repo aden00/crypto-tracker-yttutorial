@@ -1,11 +1,28 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React from "react";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import crypto from "../../../assets/Crypto Tracker Assets/data/crypto.json";
 import { useNavigation } from "@react-navigation/native";
-const CoinDetailsHeader = ({ image, symbol, market_cap_rank }) => {
+import { useWatchList } from "../../Contexts/WatchlistContext";
+const CoinDetailsHeader = ({ image, symbol, market_cap_rank, coinId }) => {
   const navigation = useNavigation();
+  const { watchListCoinsIds, storeWatchListCoinId, removeWatchListCoinId } =
+    useWatchList();
+  const checkIfCoinIsWatchListed = () => {
+    return watchListCoinsIds.some((coinIdval) => coinIdval === coinId);
+  };
+  const handleWatchListCoin = () => {
+    if (checkIfCoinIsWatchListed()) {
+      //remove from watch list
+      removeWatchListCoinId(coinId);
+      alert("removed from Watch List");
+    } else {
+      //add item to list
+      storeWatchListCoinId(coinId);
+      alert("added to Watch List");
+    }
+  };
   return (
     <View style={styles.headerContainer}>
       <TouchableOpacity onPress={() => navigation.goBack()} activeOpacity={0.3}>
@@ -23,12 +40,23 @@ const CoinDetailsHeader = ({ image, symbol, market_cap_rank }) => {
           <Text style={styles.rank}>#{market_cap_rank}</Text>
         </View>
       </View>
-      <FontAwesome5
-        style={{ alignSelf: "center", marginRight: 10 }}
-        name="user-circle"
-        size={30}
-        color="white"
-      />
+      <TouchableOpacity
+        style={{ alignSelf: "center" }}
+        onPress={handleWatchListCoin}
+      >
+        <AntDesign
+          name={checkIfCoinIsWatchListed() ? "eye" : "eyeo"}
+          size={30}
+          color={checkIfCoinIsWatchListed() ? "grey" : "white"}
+          style={{ alignSelf: "center" }}
+        />
+        {/* <AntDesign
+          name="eyeo"
+          size={30}
+          color="white"
+          style={{ alignSelf: "center" }}
+        /> */}
+      </TouchableOpacity>
     </View>
   );
 };

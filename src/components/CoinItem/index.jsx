@@ -3,7 +3,7 @@ import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { color } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import { useNavigation } from "@react-navigation/native";
-const CoinItem = ({ marketCoin }) => {
+const CoinItem = ({ marketCoin, watch = false }) => {
   const navigation = useNavigation();
 
   const {
@@ -36,17 +36,41 @@ const CoinItem = ({ marketCoin }) => {
       onPress={() => navigation.navigate("CoinDetails", { coinId: id })}
       activeOpacity={0.5}
     >
-      <Image
-        source={{
-          uri: image,
-        }}
-        style={{
-          width: 30,
-          height: 30,
-          marginRight: 10,
-          alignSelf: "center",
-        }}
-      />
+      <View style={{ alignSelf: "center" }}>
+        {!watch ? (
+          <Image
+            source={{
+              uri: image,
+            }}
+            style={{
+              width: 30,
+              height: 30,
+              marginRight: 10,
+              alignSelf: "center",
+            }}
+          />
+        ) : (
+          <View>
+            <Image
+              source={{
+                uri: image,
+              }}
+              style={{
+                width: 30,
+                height: 30,
+                marginRight: 10,
+                alignSelf: "center",
+              }}
+            />
+            <AntDesign
+              name="eye"
+              size={12}
+              color="white"
+              style={{ alignSelf: "center" }}
+            />
+          </View>
+        )}
+      </View>
       <View>
         <Text style={styles.title}>{name}</Text>
         <View style={{ flexDirection: "row" }}>

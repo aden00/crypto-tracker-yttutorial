@@ -38,6 +38,13 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused, color }) => (
             <AntDesign name="eyeo" size={focused ? 30 : 25} color={color} />
           ),
+          headerShown: true,
+          headerStyle: { backgroundColor: "grey" },
+          headerTitleStyle: {
+            color: "white",
+            alignSelf: "center",
+            fontWeight: "bold",
+          },
         }}
       />
     </Tab.Navigator>

@@ -73,6 +73,7 @@ const CoinDetailsScreen = () => {
   }
   const {
     image: { thumb, small, large },
+    id,
     symbol,
     market_data: {
       price_change_percentage_24h,
@@ -110,7 +111,7 @@ const CoinDetailsScreen = () => {
     return `$${parseFloat(value).toFixed(2)}`;
   };
   return (
-    <View style={{ paddingHorizontal: 10 }}>
+    <View style={{ paddingHorizontal: 10, paddingTop: 30 }}>
       <ChartPathProvider
         data={{
           points: prices.map(([x, y]) => ({ x, y })),
@@ -119,6 +120,7 @@ const CoinDetailsScreen = () => {
         }}
       >
         <CoinDetailsHeader
+          coinId={id}
           image={small}
           symbol={symbol}
           market_cap_rank={market_cap_rank}

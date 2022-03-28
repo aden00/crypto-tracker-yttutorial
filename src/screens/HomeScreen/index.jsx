@@ -32,6 +32,7 @@ const HomeScreen = () => {
 
   return (
     <FlatList
+      style={{ paddingTop: 30 }}
       data={coins}
       renderItem={({ item }) => <CoinItem marketCoin={item} />}
       // keyExtractor={(item) => item.id}
